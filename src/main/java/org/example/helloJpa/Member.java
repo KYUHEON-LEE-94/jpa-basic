@@ -18,9 +18,6 @@ public class Member extends  BaseEntity{
     @Column(name = "USERNAME")
     private String username;
 
-    @OneToOne
-    @JoinColumn(name="Locker_id")
-    private Locker locker;
 
     @ManyToOne //멤버입장에서는 Many to one
     @JoinColumn (name="TEAM_ID", insertable = false, updatable = false) //조인하는 컬럼(DB의 member의 team_id와 매핑하겠다)
@@ -45,4 +42,11 @@ public class Member extends  BaseEntity{
         this.username = username;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }

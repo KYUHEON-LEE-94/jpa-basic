@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass //여기있는 속성을 같이 사용하고 싶을때
 public class BaseEntity {
-    @Column(name = "INSERT MEMBER")
+    @Column(name = "INSERT_MEMBER")
     private String createdBy;
     private LocalDateTime createdDate;
-    @Column(name = "UPDATE MEMBER")
+    @Column(name = "UPDATE_MEMBER")
     private String lastModifiedBy;
     private LocalDateTime lastModifiedDate;
 

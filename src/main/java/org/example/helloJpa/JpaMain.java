@@ -16,11 +16,19 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setCreatedBy("lee");
-            member.setCreatedDate(LocalDateTime.now());
-            em.persist(member);
+            Member member1 = em.find(Member.class, 1L);
+            member1.setUsername("hello");
+            em.persist(member1);
+
+            Member member2 = em.find(Member.class, 1L);
+            member2.setUsername("hello");
+            em.persist(member2);
+
+            em.flush();
+            em.clear();
+
+            Member m1 = em.find(Member.class, member1.getId());
+            Member m2 = em.getReference(Member.class, member2.getId());
 
             tx.commit();
         }catch (Exception e){
@@ -31,6 +39,17 @@ public class JpaMain {
         }
         emf.close();
 
+    }
+
+    private static void  printMember(Member member){
+        System.out.println("member= "+member.getUsername());
+    }
+
+    private static void printMemberAndTeam(Member member){
+        String username = member.getUsername();
+        System.out.println("usrname="+username);
+        Team team = member.getTeam();
+        System.out.println("team = "+ team.getName());
     }
 
 }

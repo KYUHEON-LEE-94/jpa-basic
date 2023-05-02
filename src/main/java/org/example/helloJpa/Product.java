@@ -29,4 +29,12 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<MemberProduct> getMemberProducts() {
+        return memberProducts;
+    }
+
+    public void setMemberProducts(List<MemberProduct> memberProducts) {
+        this.memberProducts = memberProducts;
+    }
 }
