@@ -3,10 +3,13 @@ package org.example.helloJpa;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.example.helloJpa.RoleType;
 @Entity
-public class Member {
+public class Member extends  BaseEntity{
     @Id
     @GeneratedValue()
     @Column(name = "MEMBER_ID")
@@ -15,12 +18,16 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
-//    @Column(name = "TEAM_ID")
-//    private Team teamId;
+    @OneToOne
+    @JoinColumn(name="Locker_id")
+    private Locker locker;
 
     @ManyToOne //멤버입장에서는 Many to one
-    @JoinColumn (name="TEAM_ID") //조인하는 컬럼(DB의 member의 team_id와 매핑하겠다)
+    @JoinColumn (name="TEAM_ID", insertable = false, updatable = false) //조인하는 컬럼(DB의 member의 team_id와 매핑하겠다)
     private Team team;
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProduct = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -38,11 +45,4 @@ public class Member {
         this.username = username;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 }
