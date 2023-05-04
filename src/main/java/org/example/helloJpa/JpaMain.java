@@ -6,6 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -16,19 +17,34 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member1 = em.find(Member.class, 1L);
-            member1.setUsername("hello");
-            em.persist(member1);
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeaddress(new Address("homeCity", "street", "10000"));
 
-            Member member2 = em.find(Member.class, 1L);
-            member2.setUsername("hello");
-            em.persist(member2);
+            member.getFavoriteFoods().add("치킨");
+            member.getFavoriteFoods().add("족발");
+            member.getFavoriteFoods().add("피자");
+
+            member.getAddressHistory().add(new AddressEntity("old1","street","10000"));
+            member.getAddressHistory().add(new AddressEntity("old2","street","10000"));
+
+            em.persist(member);
 
             em.flush();
             em.clear();
 
-            Member m1 = em.find(Member.class, member1.getId());
-            Member m2 = em.getReference(Member.class, member2.getId());
+//            //값타입은 변하면 안된다.
+            Member member1 = em.find(Member.class, member.getId());
+//            Address a = member1.getHomeaddress();
+//            member1.setHomeaddress(new Address("newOne", a.getStreet(), a.getCity()));
+//
+//            //치킨 -> 한식
+//            member1.getFavoriteFoods().remove("치킨");
+//            member1.getFavoriteFoods().add("한식");
+//
+//            //equals, hashCode 오버라이딩을 제대로 해야하는 이유
+//            member1.getAddressHistory().remove(new AddressEntity("old1","street","10000"));
+//            member1.getAddressHistory().add(new AddressEntity("NewNew","street","10000"));
 
             tx.commit();
         }catch (Exception e){
@@ -39,17 +55,6 @@ public class JpaMain {
         }
         emf.close();
 
-    }
-
-    private static void  printMember(Member member){
-        System.out.println("member= "+member.getUsername());
-    }
-
-    private static void printMemberAndTeam(Member member){
-        String username = member.getUsername();
-        System.out.println("usrname="+username);
-        Team team = member.getTeam();
-        System.out.println("team = "+ team.getName());
     }
 
 }
