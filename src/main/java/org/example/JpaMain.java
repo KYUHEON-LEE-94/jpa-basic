@@ -1,4 +1,8 @@
-package org.example.helloJpa;
+package org.example;
+
+import org.example.helloJpa.Book;
+import org.example.helloJpa.Item;
+import org.example.helloJpa.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,9 +24,12 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-                Member member = new Member();
-                member.setUsername("member1");
-                em.persist(member);
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("김영한");
+            em.persist(book);
+            em.createQuery("select i from Item i where type(i) = Book", Item.class)
+                    .getResultList();
 
 
             tx.commit();
